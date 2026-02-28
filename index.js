@@ -1,5 +1,5 @@
 import express from "express";
-import line from "@line/bot-sdk";
+import { Client, middleware } from "@line/bot-sdk";
 
 const app = express();
 
@@ -8,11 +8,11 @@ const config = {
   channelSecret: process.env.LINE_CHANNEL_SECRET,
 };
 
-const client = new line.Client(config);
+const client = new Client(config);
 
 app.post(
   "/callback",
-  line.middleware(config),
+  middleware(config),
   async (req, res) => {
     try {
       const events = req.body.events;
@@ -44,7 +44,7 @@ app.get("/", (req, res) => {
   res.send("LINE Webhook is running 🚀");
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
